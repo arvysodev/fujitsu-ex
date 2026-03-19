@@ -5,8 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.net.URI;
 
@@ -52,6 +54,38 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST,
                 "Usage of selected vehicle type is forbidden",
                 exception.getMessage(),
+                request
+        );
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ProblemDetail handleMethodArgumentTypeMismatch(
+            MethodArgumentTypeMismatchException exception,
+            HttpServletRequest request
+    ) {
+        String detail = "Invalid value for request parameter '%s: %s'."
+                .formatted(exception.getName(), exception.getValue());
+
+        return problem(
+                HttpStatus.BAD_REQUEST,
+                "Method Argument Type Mismatch",
+                detail,
+                request
+        );
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ProblemDetail handleMissingServletRequestParameter(
+            MissingServletRequestParameterException exception,
+            HttpServletRequest request
+    ) {
+        String detail = "Missing required request parameter: '%s'."
+                .formatted(exception.getParameterName());
+
+        return problem(
+                HttpStatus.BAD_REQUEST,
+                "Missing Request Parameter",
+                detail,
                 request
         );
     }
