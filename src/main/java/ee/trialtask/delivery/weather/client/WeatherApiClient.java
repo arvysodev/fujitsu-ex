@@ -2,8 +2,10 @@ package ee.trialtask.delivery.weather.client;
 
 import ee.trialtask.delivery.weather.client.dto.ObservationsResponse;
 import ee.trialtask.delivery.weather.config.WeatherProperties;
+import ee.trialtask.delivery.weather.exception.WeatherDataFetchException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClientException;
 
 @Component
 public class WeatherApiClient {
@@ -11,15 +13,25 @@ public class WeatherApiClient {
     private final RestClient restClient;
     private final WeatherProperties properties;
 
-    public WeatherApiClient(WeatherProperties properties) {
+    public WeatherApiClient(RestClient weatherRestClient, WeatherProperties properties) {
+        this.restClient = weatherRestClient;
         this.properties = properties;
-        this.restClient = RestClient.create();
     }
 
     public ObservationsResponse fetchObservations() {
-        return restClient.get()
-                .uri(properties.api().url())
-                .retrieve()
-                .body(ObservationsResponse.class);
+        try {
+            ObservationsResponse response = restClient.get()
+                    .uri(properties.api().url())
+                    .retrieve()
+                    .body(ObservationsResponse.class);
+
+            if (response == null) {
+                throw new WeatherDataFetchException("Weather API returned empty response body");
+            }
+
+            return response;
+        } catch (RestClientException exception) {
+            throw new WeatherDataFetchException("Failed to fetch weather observations", exception);
+        }
     }
 }
