@@ -1,4 +1,4 @@
-package ee.trialtask.delivery.weather.exception;
+package ee.trialtask.delivery.exception;
 
 public class WeatherDataFetchException extends RuntimeException {
 

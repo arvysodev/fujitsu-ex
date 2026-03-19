@@ -1,7 +1,7 @@
 package ee.trialtask.delivery.fee.service;
 
 import ee.trialtask.delivery.fee.domain.VehicleType;
-import ee.trialtask.delivery.fee.exception.ForbiddenVehicleUsageException;
+import ee.trialtask.delivery.exception.ForbiddenVehicleUsageException;
 import ee.trialtask.delivery.weather.domain.WeatherObservation;
 import org.springframework.stereotype.Service;
 

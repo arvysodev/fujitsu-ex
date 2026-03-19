@@ -1,4 +1,4 @@
-package ee.trialtask.delivery.fee.exception;
+package ee.trialtask.delivery.exception;
 
 import ee.trialtask.delivery.weather.domain.City;
 

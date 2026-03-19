@@ -1,7 +1,7 @@
 package ee.trialtask.delivery.fee.service;
 
 import ee.trialtask.delivery.fee.domain.VehicleType;
-import ee.trialtask.delivery.fee.exception.WeatherObservationNotFoundException;
+import ee.trialtask.delivery.exception.WeatherObservationNotFoundException;
 import ee.trialtask.delivery.weather.domain.City;
 import ee.trialtask.delivery.weather.domain.WeatherObservation;
 import ee.trialtask.delivery.weather.repository.WeatherObservationRepository;

@@ -2,7 +2,7 @@ package ee.trialtask.delivery.weather.client;
 
 import ee.trialtask.delivery.weather.client.dto.ObservationsResponse;
 import ee.trialtask.delivery.weather.config.WeatherProperties;
-import ee.trialtask.delivery.weather.exception.WeatherDataFetchException;
+import ee.trialtask.delivery.exception.WeatherDataFetchException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;

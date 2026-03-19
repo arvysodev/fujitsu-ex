@@ -1,4 +1,4 @@
-package ee.trialtask.delivery.fee.exception;
+package ee.trialtask.delivery.exception;
 
 public class ForbiddenVehicleUsageException extends RuntimeException {
 
