@@ -2,6 +2,7 @@ package ee.trialtask.delivery.fee.service;
 
 import ee.trialtask.delivery.fee.domain.VehicleType;
 import ee.trialtask.delivery.exception.WeatherObservationNotFoundException;
+import ee.trialtask.delivery.fee.dto.DeliveryFeeResponse;
 import ee.trialtask.delivery.weather.domain.City;
 import ee.trialtask.delivery.weather.domain.WeatherObservation;
 import ee.trialtask.delivery.weather.repository.WeatherObservationRepository;
@@ -28,14 +29,15 @@ public class DeliveryFeeCalculationService {
     }
 
     @Transactional(readOnly = true)
-    public BigDecimal calculate(City city, VehicleType vehicleType) {
+    public DeliveryFeeResponse calculate(City city, VehicleType vehicleType) {
         WeatherObservation weatherObservation = weatherObservationRepository
                 .findTopByCityOrderByObservationTimestampDesc(city)
                 .orElseThrow(() -> new WeatherObservationNotFoundException(city));
 
         BigDecimal regionalBaseFee = regionalBaseFeeService.calculate(city, vehicleType);
         BigDecimal weatherExtraFee = weatherExtraFeeService.calculate(weatherObservation, vehicleType);
+        BigDecimal totalFee = regionalBaseFee.add(weatherExtraFee);
 
-        return regionalBaseFee.add(weatherExtraFee);
+        return new DeliveryFeeResponse(city, vehicleType, totalFee);
     }
 }
