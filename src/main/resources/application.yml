@@ -28,6 +28,8 @@ app:
   weather:
     api:
       url: https://www.ilmateenistus.ee/ilma_andmed/xml/observations.php
+    import-config:
+      cron: "0 15 * * * *"
     stations:
       tallinn:
         name: Tallinn-Harku
