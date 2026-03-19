@@ -20,7 +20,12 @@ public class WeatherExtraFeeService {
         }
 
         BigDecimal airTemperatureFee = calculateAirTemperatureFee(weatherObservation);
-        return BigDecimal.ZERO;
+        BigDecimal windSpeedFee = calculateWindSpeedFee(weatherObservation, vehicleType);
+        BigDecimal weatherPhenomenonFee = calculateWeatherPhenomenonFee(weatherObservation);
+
+        return airTemperatureFee
+                .add(windSpeedFee)
+                .add(weatherPhenomenonFee);
     }
 
     public BigDecimal calculateAirTemperatureFee(WeatherObservation weatherObservation) {
@@ -61,7 +66,7 @@ public class WeatherExtraFeeService {
         return ZERO_FEE;
     }
 
-    public BigDecimal calculatePhenomenonFee(WeatherObservation weatherObservation) {
+    public BigDecimal calculateWeatherPhenomenonFee(WeatherObservation weatherObservation) {
         String phenomenon = weatherObservation.getWeatherPhenomenon();
         if (phenomenon == null) {
             return ZERO_FEE;
