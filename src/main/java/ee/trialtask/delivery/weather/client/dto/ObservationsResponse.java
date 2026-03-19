@@ -7,9 +7,11 @@ import java.util.List;
 
 public record ObservationsResponse(
 
+        @JacksonXmlProperty(isAttribute = true, localName = "timestamp")
+        Long timestamp,
+
         @JacksonXmlElementWrapper(useWrapping = false)
         @JacksonXmlProperty(localName = "station")
         List<StationDto> stations
 ) {
 }
-

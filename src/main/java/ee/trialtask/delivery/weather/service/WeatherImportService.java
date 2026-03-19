@@ -12,7 +12,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +48,7 @@ public class WeatherImportService {
             return 0;
         }
 
+        LocalDateTime observationTimestamp = toLocalDateTime(response.timestamp());
         Map<String, StationDto> stationByWmoCode = indexStationsByWmoCode(stationDtos);
         LocalDateTime importedAt = LocalDateTime.now();
 
@@ -62,17 +65,21 @@ public class WeatherImportService {
                 continue;
             }
 
-            WeatherObservation weatherObservation =
-                    weatherMapper.toEntity(stationDto, configuredStation.city(), importedAt);
-
             boolean alreadyExists = weatherObservationRepository.existsByWmoCodeAndObservationTimestamp(
-                    weatherObservation.getWmoCode(),
-                    weatherObservation.getObservationTimestamp()
+                    configuredStation.wmoCode(),
+                    observationTimestamp
             );
 
             if (alreadyExists) {
                 continue;
             }
+
+            WeatherObservation weatherObservation = weatherMapper.toEntity(
+                    stationDto,
+                    configuredStation.city(),
+                    observationTimestamp,
+                    importedAt
+            );
 
             try {
                 weatherObservationRepository.saveAndFlush(weatherObservation);
@@ -96,5 +103,12 @@ public class WeatherImportService {
         }
 
         return stationByWmoCode;
+    }
+
+    private LocalDateTime toLocalDateTime(Long timestamp) {
+        return LocalDateTime.ofInstant(
+                Instant.ofEpochSecond(timestamp),
+                ZoneId.systemDefault()
+        );
     }
 }

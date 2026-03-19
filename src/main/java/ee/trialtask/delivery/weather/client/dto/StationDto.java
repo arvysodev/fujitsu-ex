@@ -19,9 +19,6 @@ public record StationDto(
         BigDecimal windSpeed,
 
         @JacksonXmlProperty(localName = "phenomenon")
-        String phenomenon,
-
-        @JacksonXmlProperty(localName = "observationtime")
-        String observationTime
+        String phenomenon
 ) {
 }

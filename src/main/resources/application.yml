@@ -35,7 +35,7 @@ app:
         name: Tallinn-Harku
         wmo-code: "26038"
       tartu:
-        name: Tartu-Toravere
+        name: Tartu-Tõravere
         wmo-code: "26242"
       parnu:
         name: Pärnu
