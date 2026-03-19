@@ -8,18 +8,33 @@ spring:
     username: sa
     password:
 
-    h2:
-      console:
-        enabled: true
-        path: /h2-console
-
-    jpa:
-      hibernate:
-        ddl-auto: validate
-      open-in-view: false
-      properties:
-        hibernate:
-          format_sql: true
-
-    flyway:
+  h2:
+    console:
       enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+
+app:
+  weather:
+    api:
+      url: https://www.ilmateenistus.ee/ilma_andmed/xml/observations.php
+    stations:
+      tallinn:
+        name: Tallinn-Harku
+        wmo-code: "26038"
+      tartu:
+        name: Tartu-Toravere
+        wmo-code: "26242"
+      parnu:
+        name: Pärnu
+        wmo-code: "41803"
