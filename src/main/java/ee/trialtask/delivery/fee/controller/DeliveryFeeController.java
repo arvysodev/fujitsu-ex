@@ -10,10 +10,13 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDateTime;
 
 @Tag(name = "Delivery Fee", description = "Operations for calculating courier delivery fee")
 @RestController
@@ -56,8 +59,15 @@ public class DeliveryFeeController {
             @Parameter(description = "City for delivery fee calculation", example = "TALLINN")
             @RequestParam City city,
             @Parameter(description = "Vehicle type used for delivery", example = "CAR")
-            @RequestParam VehicleType vehicleType
+            @RequestParam VehicleType vehicleType,
+            @Parameter(
+                    description = "Optional datetime for historical delivery fee calculation",
+                    example = "2026-03-19T19:00:00"
+            )
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            LocalDateTime dateTime
     ) {
-        return deliveryFeeCalculationService.calculate(city, vehicleType);
+        return deliveryFeeCalculationService.calculate(city, vehicleType, dateTime);
     }
 }

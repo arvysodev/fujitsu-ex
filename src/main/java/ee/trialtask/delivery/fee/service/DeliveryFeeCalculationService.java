@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Service
 public class DeliveryFeeCalculationService {
@@ -29,15 +30,31 @@ public class DeliveryFeeCalculationService {
     }
 
     @Transactional(readOnly = true)
-    public DeliveryFeeResponse calculate(City city, VehicleType vehicleType) {
-        WeatherObservation weatherObservation = weatherObservationRepository
-                .findTopByCityOrderByObservationTimestampDesc(city)
-                .orElseThrow(() -> new WeatherObservationNotFoundException(city));
+    public DeliveryFeeResponse calculate(
+            City city,
+            VehicleType vehicleType,
+            LocalDateTime observationTimestamp
+    ) {
+        WeatherObservation weatherObservation = findWeatherObservation(city, observationTimestamp);
 
         BigDecimal regionalBaseFee = regionalBaseFeeService.calculate(city, vehicleType);
         BigDecimal weatherExtraFee = weatherExtraFeeService.calculate(weatherObservation, vehicleType);
         BigDecimal totalFee = regionalBaseFee.add(weatherExtraFee);
 
         return new DeliveryFeeResponse(city, vehicleType, totalFee);
+    }
+
+    private WeatherObservation findWeatherObservation(City city, LocalDateTime observationTimestamp) {
+        if (observationTimestamp == null) {
+            return weatherObservationRepository.findTopByCityOrderByObservationTimestampDesc(city)
+                    .orElseThrow(() -> new WeatherObservationNotFoundException(city));
+        }
+
+        return weatherObservationRepository
+                .findTopByCityAndObservationTimestampLessThanEqualOrderByObservationTimestampDesc(
+                        city,
+                        observationTimestamp
+                )
+                .orElseThrow(() -> new WeatherObservationNotFoundException(city));
     }
 }
