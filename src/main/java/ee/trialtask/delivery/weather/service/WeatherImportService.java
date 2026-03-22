@@ -8,6 +8,8 @@ import ee.trialtask.delivery.weather.config.WeatherStationResolver;
 import ee.trialtask.delivery.weather.domain.WeatherObservation;
 import ee.trialtask.delivery.weather.mapper.WeatherMapper;
 import ee.trialtask.delivery.weather.repository.WeatherObservationRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,8 @@ import java.util.Map;
 
 @Service
 public class WeatherImportService {
+
+    private static final Logger log = LoggerFactory.getLogger(WeatherImportService.class);
 
     private final WeatherApiClient weatherApiClient;
     private final WeatherStationResolver weatherStationResolver;
@@ -84,7 +88,13 @@ public class WeatherImportService {
             try {
                 weatherObservationRepository.saveAndFlush(weatherObservation);
                 importedCount++;
-            } catch (DataIntegrityViolationException ignored) {
+            } catch (DataIntegrityViolationException ex) {
+                log.debug(
+                        "Skipping duplicate weather observation for station wmoCode={} at observationTimestamp={}",
+                        weatherObservation.getWmoCode(),
+                        weatherObservation.getObservationTimestamp(),
+                        ex
+                );
             }
         }
 

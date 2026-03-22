@@ -28,7 +28,7 @@ public class WeatherExtraFeeService {
                 .add(weatherPhenomenonFee);
     }
 
-    public BigDecimal calculateAirTemperatureFee(WeatherObservation weatherObservation) {
+    private BigDecimal calculateAirTemperatureFee(WeatherObservation weatherObservation) {
         BigDecimal airTemperature = weatherObservation.getAirTemperature();
         if (airTemperature == null) {
             return ZERO_FEE;
@@ -45,7 +45,7 @@ public class WeatherExtraFeeService {
         return ZERO_FEE;
     }
 
-    public BigDecimal calculateWindSpeedFee(WeatherObservation weatherObservation, VehicleType vehicleType) {
+    private BigDecimal calculateWindSpeedFee(WeatherObservation weatherObservation, VehicleType vehicleType) {
         if (vehicleType != VehicleType.BIKE) {
             return ZERO_FEE;
         }
@@ -66,7 +66,7 @@ public class WeatherExtraFeeService {
         return ZERO_FEE;
     }
 
-    public BigDecimal calculateWeatherPhenomenonFee(WeatherObservation weatherObservation) {
+    private BigDecimal calculateWeatherPhenomenonFee(WeatherObservation weatherObservation) {
         String phenomenon = weatherObservation.getWeatherPhenomenon();
         if (phenomenon == null) {
             return ZERO_FEE;
@@ -78,28 +78,28 @@ public class WeatherExtraFeeService {
             throw new ForbiddenVehicleUsageException("Usage of selected vehicle type is forbidden");
         }
 
-        if (containsRainPhenomenon(normalizedPhenomenon)) {
-            return HALF_EURO;
-        }
-
         if (containsSnowPhenomenon(normalizedPhenomenon)) {
             return ONE_EURO;
+        }
+
+        if (containsRainPhenomenon(normalizedPhenomenon)) {
+            return HALF_EURO;
         }
 
         return ZERO_FEE;
     }
 
-    public boolean containsForbiddenPhenomenon(String phenomenon) {
+    private boolean containsForbiddenPhenomenon(String phenomenon) {
         return phenomenon.contains("glaze")
                 || phenomenon.contains("hail")
                 || phenomenon.contains("thunder");
     }
 
-    public boolean containsSnowPhenomenon(String phenomenon) {
-        return phenomenon.contains("snow") || phenomenon.contains("sleet"); // not sure about "snow"
+    private boolean containsSnowPhenomenon(String phenomenon) {
+        return phenomenon.contains("snow") || phenomenon.contains("sleet");
     }
 
-    public boolean containsRainPhenomenon(String phenomenon) {
+    private boolean containsRainPhenomenon(String phenomenon) {
         return phenomenon.contains("rain") || phenomenon.contains("shower");
     }
 }

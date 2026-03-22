@@ -31,7 +31,9 @@ public class DeliveryFeeController {
 
     @Operation(
             summary = "Calculate delivery fee",
-            description = "Calculates the total delivery fee for the given city and vehicle type using the latest available weather observation."
+            description = "Calculates courier delivery fee based on city, vehicle type, and weather observation. "
+                    + "If dateTime is provided, the fee is calculated using the latest observation at or before that time. "
+                    + "If dateTime is omitted, the latest available observation is used."
     )
     @ApiResponses({
             @ApiResponse(

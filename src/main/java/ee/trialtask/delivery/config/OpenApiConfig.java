@@ -14,6 +14,6 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("Delivery Fee Calculator API")
                         .version("1.0.0")
-                        .description("REST API for calculating courier delivery fees based on city, vehicle type, and latest weather data."));
+                        .description("REST API for calculating courier delivery fees based on city, vehicle type, and weather data."));
     }
 }
