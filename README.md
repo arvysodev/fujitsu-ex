@@ -18,7 +18,7 @@ The calculation endpoint uses stored data and is not dependent on external API a
 
 ## Architecture
 
-Application is divided into two main flows:
+The Application is divided into two main flows:
 
 ### 1. Weather Data Import
 
@@ -80,7 +80,7 @@ docker build -t delivery-fee-calculator .
 Run the container:
 
 ```
-docker run -p 8080:8080 delivery-fee-calcualtor
+docker run -p 8080:8080 delivery-fee-calculator
 ```
 
 Application will be available on:
@@ -129,7 +129,7 @@ Default settings:
 
 ```GET /api/v1/delivery-fee?city=TALLINN&vehicleType=BIKE```
 
-**With historical timestamp
+**With historical timestamp**
 
 ```GET /api/v1/delivery-fee?city=TARTU&vehicleType=SCOOTER&dateTime=2024-01-01T10:00:00```
 
@@ -184,7 +184,7 @@ Example:
 
 ---
 
-## Decign Decisions
+## Design Decisions
 
 * Separation of concerns: import and calculation are independent
 * No direct dependency on external API during fee calculation
