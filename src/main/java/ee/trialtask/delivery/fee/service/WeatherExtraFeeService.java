@@ -59,7 +59,7 @@ public class WeatherExtraFeeService {
             throw new ForbiddenVehicleUsageException("Usage of selected vehicle type is forbidden");
         }
 
-        if (windSpeed.compareTo(BigDecimal.valueOf(10)) > 0) {
+        if (windSpeed.compareTo(BigDecimal.valueOf(10)) >= 0) {
             return HALF_EURO;
         }
 
