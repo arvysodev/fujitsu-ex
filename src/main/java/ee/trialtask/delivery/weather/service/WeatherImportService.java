@@ -130,7 +130,7 @@ public class WeatherImportService {
     private LocalDateTime toLocalDateTime(Long timestamp) {
         return LocalDateTime.ofInstant(
                 Instant.ofEpochSecond(timestamp),
-                ZoneId.systemDefault()
+                ZoneId.of("Europe/Tallinn")
         );
     }
 }
