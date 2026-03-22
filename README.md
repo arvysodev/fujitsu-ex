@@ -69,7 +69,29 @@ http://localhost:8080
 
 ---
 
-### 2. Swagger UI
+### 2. Run with Docker
+
+Build the Docker image:
+
+```
+docker build -t delivery-fee-calculator .
+```
+
+Run the container:
+
+```
+docker run -p 8080:8080 delivery-fee-calcualtor
+```
+
+Application will be available on:
+
+```
+http://localhost:8080
+```
+
+---
+
+### 3. Swagger UI
 
 ```
 http://localhost:8080/swagger-ui.html
@@ -77,7 +99,7 @@ http://localhost:8080/swagger-ui.html
 
 ---
 
-### 3. H2 Console
+### 4. H2 Console
 
 ```
 http://localhost:8080/h2-console
