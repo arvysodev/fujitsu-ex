@@ -7,6 +7,10 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Resolves configured weather stations from application properties
+ * into strongly typed station definitions used by the import flow.
+ */
 @Component
 @Getter
 public class WeatherStationResolver {

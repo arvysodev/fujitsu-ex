@@ -29,6 +29,18 @@ public class DeliveryFeeController {
         this.deliveryFeeCalculationService = deliveryFeeCalculationService;
     }
 
+    /**
+     * Calculates the total delivery fee for the given city and vehicle type.
+     * <p>
+     * If the optional {@code dateTime} parameter is provided, the calculation is based on the
+     * latest weather observation recorded at or before that timestamp. Otherwise, the latest
+     * available weather observation for the given city is used.
+     *
+     * @param city the city where the delivery takes place
+     * @param vehicleType the vehicle type used for delivery
+     * @param dateTime optional timestamp for historical fee calculation
+     * @return the calculated delivery fee response
+     */
     @Operation(
             summary = "Calculate delivery fee",
             description = "Calculates courier delivery fee based on city, vehicle type, and weather observation. "

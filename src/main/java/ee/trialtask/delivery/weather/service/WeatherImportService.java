@@ -1,5 +1,6 @@
 package ee.trialtask.delivery.weather.service;
 
+import ee.trialtask.delivery.exception.WeatherDataFetchException;
 import ee.trialtask.delivery.weather.client.WeatherApiClient;
 import ee.trialtask.delivery.weather.client.dto.ObservationsResponse;
 import ee.trialtask.delivery.weather.client.dto.StationDto;
@@ -43,6 +44,17 @@ public class WeatherImportService {
         this.weatherObservationRepository = weatherObservationRepository;
     }
 
+    /**
+     * Imports the latest weather observations for configured stations into the database.
+     * <p>
+     * Only observations for configured stations are processed. Existing observations with the same
+     * station WMO code and observation timestamp are skipped so that weather history is preserved
+     * without overwriting previously imported data.
+     *
+     * @return the number of newly imported weather observations
+     * @throws WeatherDataFetchException
+     *         if weather observations cannot be fetched from the external API
+     */
     @Transactional
     public int importLatestObservations() {
         ObservationsResponse response = weatherApiClient.fetchObservations();

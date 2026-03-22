@@ -17,6 +17,9 @@ public class WeatherImportScheduler {
         this.weatherImportService = weatherImportService;
     }
 
+    /**
+     * Triggers scheduled import of the latest weather observations.
+     */
     @Scheduled(cron = "${app.weather.import-config.cron}")
     public void importWeatherObservations() {
         log.info("Starting scheduled weather observations import");

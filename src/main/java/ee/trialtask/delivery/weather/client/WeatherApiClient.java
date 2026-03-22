@@ -18,6 +18,13 @@ public class WeatherApiClient {
         this.properties = properties;
     }
 
+    /**
+     * Fetches the latest weather observations from the external weather API.
+     *
+     * @return the weather observations response returned by the external API
+     * @throws WeatherDataFetchException
+     *         if the external API request fails or returns an empty response body
+     */
     public ObservationsResponse fetchObservations() {
         try {
             ObservationsResponse response = restClient.get()

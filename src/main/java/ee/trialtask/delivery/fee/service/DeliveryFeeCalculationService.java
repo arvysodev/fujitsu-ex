@@ -1,5 +1,6 @@
 package ee.trialtask.delivery.fee.service;
 
+import ee.trialtask.delivery.exception.ForbiddenVehicleUsageException;
 import ee.trialtask.delivery.fee.domain.VehicleType;
 import ee.trialtask.delivery.exception.WeatherObservationNotFoundException;
 import ee.trialtask.delivery.fee.dto.DeliveryFeeResponse;
@@ -29,6 +30,23 @@ public class DeliveryFeeCalculationService {
         this.weatherObservationRepository = weatherObservationRepository;
     }
 
+    /**
+     * Calculates the total delivery fee for the specified city and vehicle type.
+     * <p>
+     * The calculation combines the regional base fee and weather-dependent extra fees.
+     * If {@code observationTimestamp} is {@code null}, the latest available weather observation
+     * for the city is used. Otherwise, the latest observation recorded at or before the provided
+     * timestamp is used.
+     *
+     * @param city the city where the delivery takes place
+     * @param vehicleType the vehicle type used for delivery
+     * @param observationTimestamp optional timestamp for historical calculation
+     * @return the calculated delivery fee response
+     * @throws WeatherObservationNotFoundException
+     *         if no suitable weather observation exists for the given city
+     * @throws ForbiddenVehicleUsageException
+     *         if the selected vehicle type is forbidden under the weather conditions
+     */
     @Transactional(readOnly = true)
     public DeliveryFeeResponse calculate(
             City city,

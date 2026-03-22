@@ -9,6 +9,13 @@ import java.math.BigDecimal;
 @Service
 public class RegionalBaseFeeService {
 
+    /**
+     * Returns the regional base fee for the given city and vehicle type.
+     *
+     * @param city the city where the delivery takes place
+     * @param vehicleType the vehicle type used for delivery
+     * @return the regional base fee
+     */
     public BigDecimal calculate(City city, VehicleType vehicleType) {
         return switch (city) {
             case TALLINN -> calculateTallinnBaseFee(vehicleType);

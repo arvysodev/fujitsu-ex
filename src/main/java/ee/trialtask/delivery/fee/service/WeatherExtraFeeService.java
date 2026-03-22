@@ -14,6 +14,18 @@ public class WeatherExtraFeeService {
     private static final BigDecimal HALF_EURO = BigDecimal.valueOf(0.5);
     private static final BigDecimal ONE_EURO = BigDecimal.ONE;
 
+    /**
+     * Calculates the total extra weather fee for the given weather observation and vehicle type.
+     * <p>
+     * The extra fee may include components based on air temperature, wind speed, and weather
+     * phenomenon according to the business rules. No extra fee is applied for cars.
+     *
+     * @param weatherObservation the weather observation used for calculation
+     * @param vehicleType the vehicle type used for delivery
+     * @return the total extra weather fee
+     * @throws ForbiddenVehicleUsageException
+     *         if the selected vehicle type is forbidden under the weather conditions
+     */
     public BigDecimal calculate(WeatherObservation weatherObservation, VehicleType vehicleType) {
         if (vehicleType == VehicleType.CAR) {
             return ZERO_FEE;
