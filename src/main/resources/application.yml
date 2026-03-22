@@ -26,6 +26,9 @@ spring:
 
 app:
   weather:
+    client:
+      connect-timeout: 5s
+      read-timeout: 10s
     api:
       url: https://www.ilmateenistus.ee/ilma_andmed/xml/observations.php
     import-config:
