@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  flyway:
+    enabled: true
+
+  task:
+    scheduling:
+      enabled: false
+
+app:
+  weather:
+    api:
+      url: https://www.ilmateenistus.ee/ilma_andmed/xml/observations.php
+    import-config:
+      cron: "0 15 * * * *"
+    stations:
+      tallinn:
+        name: Tallinn-Harku
+        wmo-code: "26038"
+      tartu:
+        name: Tartu-Tõravere
+        wmo-code: "26242"
+      parnu:
+        name: Pärnu
+        wmo-code: "41803"
+
+springdoc:
+  api-docs:
+    version: openapi_3_1

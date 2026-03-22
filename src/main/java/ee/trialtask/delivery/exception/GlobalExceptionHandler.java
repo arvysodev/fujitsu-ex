@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
     ) {
         return problem(
                 HttpStatus.BAD_REQUEST,
-                "Usage of selected vehicle type is forbidden",
+                "Vehicle Usage Forbidden",
                 exception.getMessage(),
                 request
         );
@@ -68,7 +68,7 @@ public class GlobalExceptionHandler {
 
         return problem(
                 HttpStatus.BAD_REQUEST,
-                "Method Argument Type Mismatch",
+                "Invalid Request Parameter",
                 detail,
                 request
         );
